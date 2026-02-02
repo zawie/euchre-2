@@ -21,7 +21,7 @@
       "loserScore": 4,
       "winnerEuchs": 0,
       "loserEuchs": 1,
-      "location": "Adam's House",
+      "location": "Adam's Palace",
       "drinking": false,
       "notes": "2025 deck"
     },
@@ -33,7 +33,7 @@
       "loserScore": 8,
       "winnerEuchs": 1,
       "loserEuchs": 1,
-      "location": "Maya's Place",
+      "location": "Maya's Garden",
       "drinking": true,
       "notes": "PNW deck. Deanna MC'd. Adam went alone (won 4, 1pt). Farmer hands: Deanna 2x, Leah 1x. All but Maya drank wine."
     },
@@ -45,7 +45,7 @@
       "loserScore": 0,
       "winnerEuchs": 2,
       "loserEuchs": 3,
-      "location": "Maya's Place",
+      "location": "Maya's Garden",
       "drinking": true,
       "notes": "Wine 2 bottles. Farmer hand 1. Deanna euched 3x, Adam euched 2x."
     },
@@ -69,7 +69,7 @@
       "loserScore": 8,
       "winnerEuchs": 1,
       "loserEuchs": 1,
-      "location": "Leah's Place",
+      "location": "McDermott Pub",
       "drinking": true,
       "notes": "Brut. Leah got farmer hand. Leah ace no face. Adam Machiavellian."
     },
