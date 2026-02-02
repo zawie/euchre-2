@@ -42,6 +42,42 @@
             padding: 3rem 1.5rem;
         }
 
+        /* Loading state */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            text-align: center;
+            padding: 3rem;
+            color: var(--accent-red);
+        }
+
+        .error-detail {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
         /* Header */
         .header {
             margin-bottom: 3rem;
@@ -396,167 +432,151 @@
             color: var(--text-muted);
             font-size: 0.85rem;
         }
+
+        /* Hidden until loaded */
+        .content {
+            display: none;
+        }
+
+        .content.loaded {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <div class="header-top">
-                <h1 class="title">Euchre Stats</h1>
-                <span class="year-badge">2025 Season</span>
-            </div>
-            <p class="subtitle" id="subtitle">Loading...</p>
-        </header>
-
-        <div class="stats-overview" id="statsOverview">
-            <div class="stat-card">
-                <div class="stat-label">Games Played</div>
-                <div class="stat-value gold" id="totalGames">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Euchs</div>
-                <div class="stat-value green" id="totalEuchs">-</div>
-                <div class="stat-subtext" id="euchAvg">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Drinking Games</div>
-                <div class="stat-value blue" id="drinkPercent">-</div>
-                <div class="stat-subtext" id="drinkCount">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Unique Pairs</div>
-                <div class="stat-value purple" id="uniquePairs">-</div>
-            </div>
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading games...</p>
         </div>
 
-        <div class="content-grid">
-            <div class="section-card">
-                <h2 class="section-title">Pair Rankings</h2>
-                <div id="leaderboard"></div>
-            </div>
-
-            <div class="section-card">
-                <h2 class="section-title">Season Insights</h2>
-                <div id="insights"></div>
-            </div>
+        <!-- Error State -->
+        <div class="error" id="error" style="display: none;">
+            <h2>Failed to load games</h2>
+            <p class="error-detail" id="errorDetail"></p>
         </div>
 
-        <div class="content-grid">
-            <div class="section-card">
-                <h2 class="section-title">Locations</h2>
-                <div id="locations"></div>
+        <!-- Main Content -->
+        <div class="content" id="content">
+            <header class="header">
+                <div class="header-top">
+                    <h1 class="title">Euchre Stats</h1>
+                    <span class="year-badge" id="seasonBadge">2025 Season</span>
+                </div>
+                <p class="subtitle" id="subtitle">Loading...</p>
+            </header>
+
+            <div class="stats-overview" id="statsOverview">
+                <div class="stat-card">
+                    <div class="stat-label">Games Played</div>
+                    <div class="stat-value gold" id="totalGames">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Euchs</div>
+                    <div class="stat-value green" id="totalEuchs">-</div>
+                    <div class="stat-subtext" id="euchAvg">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Drinking Games</div>
+                    <div class="stat-value blue" id="drinkPercent">-</div>
+                    <div class="stat-subtext" id="drinkCount">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Unique Pairs</div>
+                    <div class="stat-value purple" id="uniquePairs">-</div>
+                </div>
             </div>
 
-            <div class="section-card">
-                <h2 class="section-title">Monthly Activity</h2>
-                <div id="monthly"></div>
+            <div class="content-grid">
+                <div class="section-card">
+                    <h2 class="section-title">Pair Rankings</h2>
+                    <div id="leaderboard"></div>
+                </div>
+
+                <div class="section-card">
+                    <h2 class="section-title">Season Insights</h2>
+                    <div id="insights"></div>
+                </div>
             </div>
+
+            <div class="content-grid">
+                <div class="section-card">
+                    <h2 class="section-title">Locations</h2>
+                    <div id="locations"></div>
+                </div>
+
+                <div class="section-card">
+                    <h2 class="section-title">Monthly Activity</h2>
+                    <div id="monthly"></div>
+                </div>
+            </div>
+
+            <div class="games-section">
+                <div class="games-header">
+                    <h2 class="section-title">Game Log</h2>
+                </div>
+                <div class="games-table-wrapper">
+                    <table class="games-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Winners</th>
+                                <th>Losers</th>
+                                <th>Score</th>
+                                <th>Euchs</th>
+                                <th>Location</th>
+                                <th>🍺</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gamesBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <footer class="footer">
+                Data tracked across <span id="footerGames">0</span> games
+            </footer>
         </div>
-
-        <div class="games-section">
-            <div class="games-header">
-                <h2 class="section-title">Game Log</h2>
-            </div>
-            <div class="games-table-wrapper">
-                <table class="games-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Winners</th>
-                            <th>Losers</th>
-                            <th>Score</th>
-                            <th>Euchs</th>
-                            <th>Location</th>
-                            <th>🍺</th>
-                        </tr>
-                    </thead>
-                    <tbody id="gamesBody"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <footer class="footer">
-            Data tracked across <span id="footerGames">0</span> games
-        </footer>
     </div>
 
     <script>
         // ============================================
-        // EDIT YOUR GAME DATA HERE
+        // Configuration: Path to your JSON data file
         // ============================================
-        const games = [
-            {
-                date: "2025-01-15",
-                winners: "Adam & Sarah",
-                losers: "Mike & Jess",
-                winnerScore: 10,
-                loserScore: 6,
-                winnerEuchs: 1,
-                loserEuchs: 0,
-                location: "Adam's Place",
-                drinking: true
-            },
-            {
-                date: "2025-01-18",
-                winners: "Mike & Jess",
-                losers: "Adam & Sarah",
-                winnerScore: 10,
-                loserScore: 8,
-                winnerEuchs: 0,
-                loserEuchs: 2,
-                location: "Mike's House",
-                drinking: true
-            },
-            {
-                date: "2025-01-22",
-                winners: "Adam & Sarah",
-                losers: "Tom & Lisa",
-                winnerScore: 10,
-                loserScore: 3,
-                winnerEuchs: 2,
-                loserEuchs: 0,
-                location: "Adam's Place",
-                drinking: false
-            },
-            {
-                date: "2025-01-28",
-                winners: "Tom & Lisa",
-                losers: "Mike & Jess",
-                winnerScore: 10,
-                loserScore: 9,
-                winnerEuchs: 0,
-                loserEuchs: 1,
-                location: "The Bar",
-                drinking: true
-            },
-            {
-                date: "2025-02-02",
-                winners: "Adam & Sarah",
-                losers: "Mike & Jess",
-                winnerScore: 10,
-                loserScore: 4,
-                winnerEuchs: 3,
-                loserEuchs: 0,
-                location: "Adam's Place",
-                drinking: true
-            },
-            {
-                date: "2025-02-08",
-                winners: "Mike & Jess",
-                losers: "Tom & Lisa",
-                winnerScore: 10,
-                loserScore: 7,
-                winnerEuchs: 1,
-                loserEuchs: 1,
-                location: "Mike's House",
-                drinking: false
+        const DATA_FILE = 'games.json';
+        // ============================================
+
+        let games = [];
+        let season = '2025';
+
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_FILE);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                
+                games = data.games || [];
+                season = data.season || '2025';
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').classList.add('loaded');
+                document.getElementById('seasonBadge').textContent = `${season} Season`;
+                
+                renderStats();
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('errorDetail').textContent = error.message;
+                console.error('Failed to load game data:', error);
             }
-        ];
-        // ============================================
+        }
 
         function calculateStats() {
             const totalGames = games.length;
-            const totalEuchs = games.reduce((sum, g) => sum + g.winnerEuchs + g.loserEuchs, 0);
+            const totalEuchs = games.reduce((sum, g) => sum + (g.winnerEuchs || 0) + (g.loserEuchs || 0), 0);
             const drinkingGames = games.filter(g => g.drinking).length;
             
             // Pair stats
@@ -566,12 +586,12 @@
                 if (!pairStats[g.losers]) pairStats[g.losers] = { wins: 0, losses: 0, euchs: 0, euchsAgainst: 0 };
                 
                 pairStats[g.winners].wins++;
-                pairStats[g.winners].euchs += g.winnerEuchs;
-                pairStats[g.winners].euchsAgainst += g.loserEuchs;
+                pairStats[g.winners].euchs += g.winnerEuchs || 0;
+                pairStats[g.winners].euchsAgainst += g.loserEuchs || 0;
                 
                 pairStats[g.losers].losses++;
-                pairStats[g.losers].euchs += g.loserEuchs;
-                pairStats[g.losers].euchsAgainst += g.winnerEuchs;
+                pairStats[g.losers].euchs += g.loserEuchs || 0;
+                pairStats[g.losers].euchsAgainst += g.winnerEuchs || 0;
             });
 
             // Location stats
@@ -599,7 +619,7 @@
             }, { diff: Infinity });
 
             const mostEuchsGame = games.reduce((max, g) => {
-                const total = g.winnerEuchs + g.loserEuchs;
+                const total = (g.winnerEuchs || 0) + (g.loserEuchs || 0);
                 return total > max.total ? { game: g, total } : max;
             }, { total: 0 });
 
@@ -618,12 +638,16 @@
         }
 
         function renderStats() {
+            if (games.length === 0) {
+                document.getElementById('subtitle').textContent = 'No games recorded yet';
+                return;
+            }
+
             const stats = calculateStats();
 
             // Header subtitle
-            const dateRange = games.length > 0 ? 
-                `${formatDate(games[games.length - 1].date)} — ${formatDate(games[0].date)}` : 
-                'No games yet';
+            const sortedGames = [...games].sort((a, b) => a.date.localeCompare(b.date));
+            const dateRange = `${formatDate(sortedGames[0].date)} — ${formatDate(sortedGames[sortedGames.length - 1].date)}`;
             document.getElementById('subtitle').textContent = dateRange;
 
             // Overview stats
@@ -710,8 +734,9 @@
                 </div>
             `).join('');
 
-            // Games table
-            document.getElementById('gamesBody').innerHTML = games.map(g => `
+            // Games table (sorted newest first)
+            const gamesSorted = [...games].sort((a, b) => b.date.localeCompare(a.date));
+            document.getElementById('gamesBody').innerHTML = gamesSorted.map(g => `
                 <tr>
                     <td>${formatDate(g.date)}</td>
                     <td class="winner-cell">${g.winners}</td>
@@ -745,7 +770,7 @@
         }
 
         // Initialize
-        renderStats();
+        loadData();
     </script>
 </body>
 </html>

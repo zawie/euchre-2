@@ -1,0 +1,101 @@
+{
+  "season": "2026",
+  "games": [
+    {
+      "date": "2026-01-01",
+      "winners": "Adam & Maya",
+      "losers": "Deanna & Leah",
+      "winnerScore": 10,
+      "loserScore": 9,
+      "winnerEuchs": 1,
+      "loserEuchs": 1,
+      "location": "Sol Cafe",
+      "drinking": true,
+      "notes": "2025 deck"
+    },
+    {
+      "date": "2026-01-08",
+      "winners": "Adam & Leah",
+      "losers": "Deanna & Maya",
+      "winnerScore": 6,
+      "loserScore": 4,
+      "winnerEuchs": 0,
+      "loserEuchs": 1,
+      "location": "Adam's House",
+      "drinking": false,
+      "notes": "2025 deck"
+    },
+    {
+      "date": "2026-01-13",
+      "winners": "Deanna & Leah",
+      "losers": "Adam & Maya",
+      "winnerScore": 10,
+      "loserScore": 8,
+      "winnerEuchs": 1,
+      "loserEuchs": 1,
+      "location": "Maya's Place",
+      "drinking": true,
+      "notes": "PNW deck. Deanna MC'd. Adam went alone (won 4, 1pt). Farmer hands: Deanna 2x, Leah 1x. All but Maya drank wine."
+    },
+    {
+      "date": "2026-01-13",
+      "winners": "Adam & Leah",
+      "losers": "Deanna & Maya",
+      "winnerScore": 10,
+      "loserScore": 0,
+      "winnerEuchs": 2,
+      "loserEuchs": 3,
+      "location": "Maya's Place",
+      "drinking": true,
+      "notes": "Wine 2 bottles. Farmer hand 1. Deanna euched 3x, Adam euched 2x."
+    },
+    {
+      "date": "2026-01-20",
+      "winners": "Adam & Deanna",
+      "losers": "Leah & Maya",
+      "winnerScore": 11,
+      "loserScore": 3,
+      "winnerEuchs": 1,
+      "loserEuchs": 1,
+      "location": "Unknown",
+      "drinking": false,
+      "notes": "Adam went alone. Deanna ace no face."
+    },
+    {
+      "date": "2026-01-20",
+      "winners": "Adam & Deanna",
+      "losers": "Leah & Maya",
+      "winnerScore": 10,
+      "loserScore": 8,
+      "winnerEuchs": 1,
+      "loserEuchs": 1,
+      "location": "Leah's Place",
+      "drinking": true,
+      "notes": "Brut. Leah got farmer hand. Leah ace no face. Adam Machiavellian."
+    },
+    {
+      "date": "2026-01-28",
+      "winners": "Leah & Maya",
+      "losers": "Adam & Deanna",
+      "winnerScore": 10,
+      "loserScore": 5,
+      "winnerEuchs": 1,
+      "loserEuchs": 2,
+      "location": "Corvus",
+      "drinking": true,
+      "notes": "Cocktails. Royal euch on Adam & Deanna."
+    },
+    {
+      "date": "2026-01-28",
+      "winners": "Leah & Maya",
+      "losers": "Adam & Deanna",
+      "winnerScore": 10,
+      "loserScore": 5,
+      "winnerEuchs": 0,
+      "loserEuchs": 0,
+      "location": "Corvus",
+      "drinking": true,
+      "notes": "Beers. Leah Machiavellian hand (improper wrong deal). Deanna farmer hand. Maya won last hand on two 9s, two 10s, and left bower."
+    }
+  ]
+}
