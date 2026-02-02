@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euchre Stats 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0c0c0f;
+            --bg-secondary: #141418;
+            --bg-card: #1a1a1f;
+            --bg-card-hover: #222228;
+            --text-primary: #ffffff;
+            --text-secondary: #8a8a9a;
+            --text-muted: #5a5a6a;
+            --accent-gold: #d4a853;
+            --accent-green: #4ade80;
+            --accent-blue: #60a5fa;
+            --accent-red: #f87171;
+            --accent-purple: #a78bfa;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .year-badge {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            background: rgba(212, 168, 83, 0.1);
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 168, 83, 0.2);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: background 0.2s ease;
+        }
+
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-value.gold { color: var(--accent-gold); }
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.blue { color: var(--accent-blue); }
+        .stat-value.purple { color: var(--accent-purple); }
+
+        .stat-subtext {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Two column layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Section cards */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+        }
+
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 1.25rem;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Leaderboard */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .leaderboard-item:first-child {
+            padding-top: 0;
+        }
+
+        .leaderboard-rank {
+            width: 2rem;
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .leaderboard-rank.rank-1 { color: var(--accent-gold); }
+        .leaderboard-rank.rank-2 { color: #b0b0b0; }
+        .leaderboard-rank.rank-3 { color: #cd7f32; }
+
+        .leaderboard-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .leaderboard-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .leaderboard-stat {
+            text-align: right;
+        }
+
+        .leaderboard-stat-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .leaderboard-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Insights */
+        .insight-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .insight-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .insight-item:first-child {
+            padding-top: 0;
+        }
+
+        .insight-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .insight-detail {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Games table */
+        .games-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .games-header {
+            padding: 1.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .games-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .games-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .games-table th {
+            text-align: left;
+            padding: 1rem 1.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .games-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .games-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .games-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .winner-cell {
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .loser-cell {
+            color: var(--text-secondary);
+        }
+
+        .score-cell {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+        }
+
+        .score-winner {
+            color: var(--accent-green);
+        }
+
+        .score-loser {
+            color: var(--text-muted);
+        }
+
+        .euch-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--accent-red);
+            margin-right: 0.25rem;
+        }
+
+        .location-cell {
+            color: var(--text-secondary);
+        }
+
+        .drink-indicator {
+            font-size: 1rem;
+        }
+
+        /* Location breakdown */
+        .location-bar {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .location-name {
+            width: 120px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .location-bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 1rem;
+        }
+
+        .location-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .location-count {
+            font-weight: 600;
+            font-size: 0.9rem;
+            width: 2rem;
+            text-align: right;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1 class="title">Euchre Stats</h1>
+                <span class="year-badge">2025 Season</span>
+            </div>
+            <p class="subtitle" id="subtitle">Loading...</p>
+        </header>
+
+        <div class="stats-overview" id="statsOverview">
+            <div class="stat-card">
+                <div class="stat-label">Games Played</div>
+                <div class="stat-value gold" id="totalGames">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Euchs</div>
+                <div class="stat-value green" id="totalEuchs">-</div>
+                <div class="stat-subtext" id="euchAvg">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Drinking Games</div>
+                <div class="stat-value blue" id="drinkPercent">-</div>
+                <div class="stat-subtext" id="drinkCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Unique Pairs</div>
+                <div class="stat-value purple" id="uniquePairs">-</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="section-card">
+                <h2 class="section-title">Pair Rankings</h2>
+                <div id="leaderboard"></div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">Season Insights</h2>
+                <div id="insights"></div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="section-card">
+                <h2 class="section-title">Locations</h2>
+                <div id="locations"></div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">Monthly Activity</h2>
+                <div id="monthly"></div>
+            </div>
+        </div>
+
+        <div class="games-section">
+            <div class="games-header">
+                <h2 class="section-title">Game Log</h2>
+            </div>
+            <div class="games-table-wrapper">
+                <table class="games-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Winners</th>
+                            <th>Losers</th>
+                            <th>Score</th>
+                            <th>Euchs</th>
+                            <th>Location</th>
+                            <th>🍺</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gamesBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="footer">
+            Data tracked across <span id="footerGames">0</span> games
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // EDIT YOUR GAME DATA HERE
+        // ============================================
+        const games = [
+            {
+                date: "2025-01-15",
+                winners: "Adam & Sarah",
+                losers: "Mike & Jess",
+                winnerScore: 10,
+                loserScore: 6,
+                winnerEuchs: 1,
+                loserEuchs: 0,
+                location: "Adam's Place",
+                drinking: true
+            },
+            {
+                date: "2025-01-18",
+                winners: "Mike & Jess",
+                losers: "Adam & Sarah",
+                winnerScore: 10,
+                loserScore: 8,
+                winnerEuchs: 0,
+                loserEuchs: 2,
+                location: "Mike's House",
+                drinking: true
+            },
+            {
+                date: "2025-01-22",
+                winners: "Adam & Sarah",
+                losers: "Tom & Lisa",
+                winnerScore: 10,
+                loserScore: 3,
+                winnerEuchs: 2,
+                loserEuchs: 0,
+                location: "Adam's Place",
+                drinking: false
+            },
+            {
+                date: "2025-01-28",
+                winners: "Tom & Lisa",
+                losers: "Mike & Jess",
+                winnerScore: 10,
+                loserScore: 9,
+                winnerEuchs: 0,
+                loserEuchs: 1,
+                location: "The Bar",
+                drinking: true
+            },
+            {
+                date: "2025-02-02",
+                winners: "Adam & Sarah",
+                losers: "Mike & Jess",
+                winnerScore: 10,
+                loserScore: 4,
+                winnerEuchs: 3,
+                loserEuchs: 0,
+                location: "Adam's Place",
+                drinking: true
+            },
+            {
+                date: "2025-02-08",
+                winners: "Mike & Jess",
+                losers: "Tom & Lisa",
+                winnerScore: 10,
+                loserScore: 7,
+                winnerEuchs: 1,
+                loserEuchs: 1,
+                location: "Mike's House",
+                drinking: false
+            }
+        ];
+        // ============================================
+
+        function calculateStats() {
+            const totalGames = games.length;
+            const totalEuchs = games.reduce((sum, g) => sum + g.winnerEuchs + g.loserEuchs, 0);
+            const drinkingGames = games.filter(g => g.drinking).length;
+            
+            // Pair stats
+            const pairStats = {};
+            games.forEach(g => {
+                if (!pairStats[g.winners]) pairStats[g.winners] = { wins: 0, losses: 0, euchs: 0, euchsAgainst: 0 };
+                if (!pairStats[g.losers]) pairStats[g.losers] = { wins: 0, losses: 0, euchs: 0, euchsAgainst: 0 };
+                
+                pairStats[g.winners].wins++;
+                pairStats[g.winners].euchs += g.winnerEuchs;
+                pairStats[g.winners].euchsAgainst += g.loserEuchs;
+                
+                pairStats[g.losers].losses++;
+                pairStats[g.losers].euchs += g.loserEuchs;
+                pairStats[g.losers].euchsAgainst += g.winnerEuchs;
+            });
+
+            // Location stats
+            const locationStats = {};
+            games.forEach(g => {
+                locationStats[g.location] = (locationStats[g.location] || 0) + 1;
+            });
+
+            // Monthly stats
+            const monthlyStats = {};
+            games.forEach(g => {
+                const month = g.date.substring(0, 7);
+                monthlyStats[month] = (monthlyStats[month] || 0) + 1;
+            });
+
+            // Game insights
+            const biggestBlowout = games.reduce((max, g) => {
+                const diff = g.winnerScore - g.loserScore;
+                return diff > max.diff ? { game: g, diff } : max;
+            }, { diff: 0 });
+
+            const closestGame = games.reduce((min, g) => {
+                const diff = g.winnerScore - g.loserScore;
+                return diff < min.diff ? { game: g, diff } : min;
+            }, { diff: Infinity });
+
+            const mostEuchsGame = games.reduce((max, g) => {
+                const total = g.winnerEuchs + g.loserEuchs;
+                return total > max.total ? { game: g, total } : max;
+            }, { total: 0 });
+
+            return {
+                totalGames,
+                totalEuchs,
+                drinkingGames,
+                pairStats,
+                locationStats,
+                monthlyStats,
+                biggestBlowout,
+                closestGame,
+                mostEuchsGame,
+                uniquePairs: Object.keys(pairStats).length
+            };
+        }
+
+        function renderStats() {
+            const stats = calculateStats();
+
+            // Header subtitle
+            const dateRange = games.length > 0 ? 
+                `${formatDate(games[games.length - 1].date)} — ${formatDate(games[0].date)}` : 
+                'No games yet';
+            document.getElementById('subtitle').textContent = dateRange;
+
+            // Overview stats
+            document.getElementById('totalGames').textContent = stats.totalGames;
+            document.getElementById('totalEuchs').textContent = stats.totalEuchs;
+            document.getElementById('euchAvg').textContent = `${(stats.totalEuchs / stats.totalGames).toFixed(1)} per game`;
+            document.getElementById('drinkPercent').textContent = `${Math.round((stats.drinkingGames / stats.totalGames) * 100)}%`;
+            document.getElementById('drinkCount').textContent = `${stats.drinkingGames} of ${stats.totalGames} games`;
+            document.getElementById('uniquePairs').textContent = stats.uniquePairs;
+
+            // Leaderboard
+            const sortedPairs = Object.entries(stats.pairStats)
+                .map(([name, s]) => ({ name, ...s, winRate: s.wins / (s.wins + s.losses) }))
+                .sort((a, b) => b.wins - a.wins || b.winRate - a.winRate);
+
+            document.getElementById('leaderboard').innerHTML = sortedPairs.map((pair, i) => `
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank ${i < 3 ? 'rank-' + (i + 1) : ''}">${i + 1}</div>
+                    <div class="leaderboard-name">${pair.name}</div>
+                    <div class="leaderboard-stats">
+                        <div class="leaderboard-stat">
+                            <div class="leaderboard-stat-value">${pair.wins}-${pair.losses}</div>
+                            <div class="leaderboard-stat-label">Record</div>
+                        </div>
+                        <div class="leaderboard-stat">
+                            <div class="leaderboard-stat-value">${Math.round(pair.winRate * 100)}%</div>
+                            <div class="leaderboard-stat-label">Win Rate</div>
+                        </div>
+                        <div class="leaderboard-stat">
+                            <div class="leaderboard-stat-value">${pair.euchs}</div>
+                            <div class="leaderboard-stat-label">Euchs</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Insights
+            document.getElementById('insights').innerHTML = `
+                <div class="insight-item">
+                    <div class="insight-label">Biggest Blowout</div>
+                    <div class="insight-value">${stats.biggestBlowout.game.winnerScore}-${stats.biggestBlowout.game.loserScore}</div>
+                    <div class="insight-detail">${stats.biggestBlowout.game.winners} vs ${stats.biggestBlowout.game.losers} • ${formatDate(stats.biggestBlowout.game.date)}</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-label">Closest Game</div>
+                    <div class="insight-value">${stats.closestGame.game.winnerScore}-${stats.closestGame.game.loserScore}</div>
+                    <div class="insight-detail">${stats.closestGame.game.winners} vs ${stats.closestGame.game.losers} • ${formatDate(stats.closestGame.game.date)}</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-label">Most Euchs in a Game</div>
+                    <div class="insight-value">${stats.mostEuchsGame.total} euchs</div>
+                    <div class="insight-detail">${stats.mostEuchsGame.game.winners} vs ${stats.mostEuchsGame.game.losers} • ${formatDate(stats.mostEuchsGame.game.date)}</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-label">Top Location</div>
+                    <div class="insight-value">${Object.entries(stats.locationStats).sort((a, b) => b[1] - a[1])[0][0]}</div>
+                    <div class="insight-detail">${Object.entries(stats.locationStats).sort((a, b) => b[1] - a[1])[0][1]} games played</div>
+                </div>
+            `;
+
+            // Locations
+            const maxLocationCount = Math.max(...Object.values(stats.locationStats));
+            const sortedLocations = Object.entries(stats.locationStats).sort((a, b) => b[1] - a[1]);
+            document.getElementById('locations').innerHTML = sortedLocations.map(([loc, count]) => `
+                <div class="location-bar">
+                    <div class="location-name">${loc}</div>
+                    <div class="location-bar-track">
+                        <div class="location-bar-fill" style="width: ${(count / maxLocationCount) * 100}%"></div>
+                    </div>
+                    <div class="location-count">${count}</div>
+                </div>
+            `).join('');
+
+            // Monthly
+            const sortedMonths = Object.entries(stats.monthlyStats).sort((a, b) => a[0].localeCompare(b[0]));
+            const maxMonthCount = Math.max(...Object.values(stats.monthlyStats));
+            document.getElementById('monthly').innerHTML = sortedMonths.map(([month, count]) => `
+                <div class="location-bar">
+                    <div class="location-name">${formatMonth(month)}</div>
+                    <div class="location-bar-track">
+                        <div class="location-bar-fill" style="width: ${(count / maxMonthCount) * 100}%"></div>
+                    </div>
+                    <div class="location-count">${count}</div>
+                </div>
+            `).join('');
+
+            // Games table
+            document.getElementById('gamesBody').innerHTML = games.map(g => `
+                <tr>
+                    <td>${formatDate(g.date)}</td>
+                    <td class="winner-cell">${g.winners}</td>
+                    <td class="loser-cell">${g.losers}</td>
+                    <td class="score-cell">
+                        <span class="score-winner">${g.winnerScore}</span>
+                        <span class="score-loser">-${g.loserScore}</span>
+                    </td>
+                    <td>
+                        ${g.winnerEuchs ? `<span class="euch-badge">W:${g.winnerEuchs}</span>` : ''}
+                        ${g.loserEuchs ? `<span class="euch-badge">L:${g.loserEuchs}</span>` : ''}
+                        ${!g.winnerEuchs && !g.loserEuchs ? '—' : ''}
+                    </td>
+                    <td class="location-cell">${g.location}</td>
+                    <td class="drink-indicator">${g.drinking ? '🍺' : '—'}</td>
+                </tr>
+            `).join('');
+
+            // Footer
+            document.getElementById('footerGames').textContent = stats.totalGames;
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function formatMonth(monthStr) {
+            const date = new Date(monthStr + '-01');
+            return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        // Initialize
+        renderStats();
+    </script>
+</body>
+</html>
