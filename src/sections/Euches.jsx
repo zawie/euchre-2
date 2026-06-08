@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell,
+  ResponsiveContainer, Cell, LineChart, Line, Legend,
 } from "recharts";
 import { PLAYERS } from "../data";
 
@@ -13,7 +13,7 @@ const PLAYER_COLORS = {
 };
 
 export default function Euches({ stats }) {
-  const { euchreCount } = stats;
+  const { euchreCount, euchreTimeline } = stats;
 
   const sorted = [...PLAYERS].sort((a, b) => euchreCount[b] - euchreCount[a]);
   const worst = sorted[0];
@@ -64,6 +64,39 @@ export default function Euches({ stats }) {
               ))}
             </Bar>
           </BarChart>
+        </ResponsiveContainer>
+      </motion.div>
+
+      {/* Cumulative line chart */}
+      <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
+        <div className="card-title">Cumulative Euches Over Time</div>
+        <ResponsiveContainer width="100%" height={260}>
+          <LineChart data={euchreTimeline} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#2e2a45" />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: "#9ca3af", fontSize: 11 }}
+              tickFormatter={(d) => d.slice(5)}
+              interval={3}
+            />
+            <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} allowDecimals={false} />
+            <Tooltip
+              contentStyle={{ background: "#1e1b2e", border: "1px solid #3b3552", borderRadius: 8 }}
+              labelStyle={{ color: "#c4b5fd" }}
+            />
+            <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
+            {PLAYERS.map((p) => (
+              <Line
+                key={p}
+                type="monotone"
+                dataKey={p}
+                stroke={PLAYER_COLORS[p]}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
+              />
+            ))}
+          </LineChart>
         </ResponsiveContainer>
       </motion.div>
 

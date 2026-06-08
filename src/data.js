@@ -467,6 +467,15 @@ export function computeStats() {
     return { date: g.date, ...runningPlayerWins };
   });
 
+  // Cumulative euchres-against timeline
+  const runningEuchres = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
+  const euchreTimeline = games.map((g) => {
+    Object.entries(g.euchres).forEach(([p, c]) => {
+      if (PLAYERS.includes(p)) runningEuchres[p] += c;
+    });
+    return { date: g.date, ...runningEuchres };
+  });
+
   return {
     pairWins,
     pairLosses,
@@ -478,6 +487,7 @@ export function computeStats() {
     aloneCount,
     aloneSweep,
     timeline,
+    euchreTimeline,
     playerTimeline,
     allPairKeys,
   };
