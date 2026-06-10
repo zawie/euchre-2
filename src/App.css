@@ -1,3 +1,57 @@
+/* ── splash gate ────────────────────────────────────────── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--strawberry);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.splash-inner {
+  max-width: 600px;
+  width: 100%;
+}
+
+.splash-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
+}
+
+.splash-title {
+  font-size: clamp(3.5rem, 16vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  color: var(--honeydew);
+  margin: 0;
+}
+
+.splash-meta {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 28px;
+}
+
+.splash-btn {
+  margin-top: 44px;
+  background: var(--honeydew);
+  color: var(--strawberry);
+  border: none;
+  border-radius: 999px;
+  padding: 16px 40px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
 /* ── layout ─────────────────────────────────────────────── */
 .app {
   min-height: 100svh;

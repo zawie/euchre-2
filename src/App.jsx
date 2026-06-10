@@ -6,6 +6,7 @@ import BestPlayer from "./sections/BestPlayer";
 import Euches from "./sections/Euches";
 import Alones from "./sections/Alones";
 import RawData from "./sections/RawData";
+import Splash from "./sections/Splash";
 import "./App.css";
 
 const stats = computeStats();
@@ -20,9 +21,14 @@ const SECTIONS = [
 
 export default function App() {
   const [active, setActive] = useState("player");
+  const [revealed, setRevealed] = useState(false);
 
   return (
     <div className="app">
+      <AnimatePresence>
+        {!revealed && <Splash key="splash" onReveal={() => setRevealed(true)} />}
+      </AnimatePresence>
+
       <header className="app-header">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
