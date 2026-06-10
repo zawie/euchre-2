@@ -145,6 +145,7 @@ export default function BestPlayer({ stats }) {
       {/* Fun stats */}
       <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
         <div className="card-title">Farmer &amp; Royal Hands</div>
+        <div className="table-scroll">
         <table className="data-table">
           <thead>
             <tr>
@@ -163,6 +164,7 @@ export default function BestPlayer({ stats }) {
             ))}
           </tbody>
         </table>
+        </div>
       </motion.div>
     </div>
   );

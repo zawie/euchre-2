@@ -17,6 +17,7 @@ export default function RawData({ games, pairKey }) {
       </motion.div>
 
       <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <div className="table-scroll">
         <table className="data-table">
           <thead>
             <tr>
@@ -113,6 +114,7 @@ export default function RawData({ games, pairKey }) {
             })}
           </tbody>
         </table>
+        </div>
       </motion.div>
     </div>
   );

@@ -96,6 +96,7 @@ export default function Alones({ stats }) {
       {/* Log of every attempt */}
       <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <div className="card-title">Every Solo Call</div>
+        <div className="table-scroll">
         <table className="data-table">
           <thead>
             <tr>
@@ -116,6 +117,7 @@ export default function Alones({ stats }) {
             ))}
           </tbody>
         </table>
+        </div>
       </motion.div>
     </div>
   );

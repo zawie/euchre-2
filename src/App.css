@@ -317,3 +317,33 @@
 /* ── recharts ───────────────────────────────────────────── */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line { stroke: var(--hairline); }
+
+/* ── mobile ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .app-header { padding: 40px 20px 0; }
+  .app-main { padding: 28px 18px 72px; }
+
+  .app-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .app-nav::-webkit-scrollbar { display: none; }
+  .nav-btn { white-space: nowrap; margin-right: 18px; padding: 12px 0; }
+
+  .card { padding: 18px; border-radius: 14px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-box { padding: 16px; }
+  .stat-box .big { font-size: 2.2rem; }
+
+  .bar-name { width: 86px; font-size: 0.82rem; }
+  .bar-track { height: 26px; }
+  .bar-val { width: 38px; font-size: 0.82rem; }
+
+  /* tables scroll horizontally instead of overflowing the card */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -18px; padding: 0 18px; }
+  .data-table { font-size: 0.82rem; min-width: 460px; }
+  .data-table th, .data-table td { padding: 8px 8px; }
+}
