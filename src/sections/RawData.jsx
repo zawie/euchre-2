@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const PLAYER_COLORS = {
-  Adam: "#fb923c",
-  Maya: "#c084fc",
-  Deanna: "#34d399",
-  Leah: "#60a5fa",
-};
+import { PLAYER_COLORS, muted, palette } from "../theme";
 
 function colorName(name) {
-  return <span style={{ color: PLAYER_COLORS[name] || "#e2e0ea", fontWeight: 600 }}>{name}</span>;
+  return <span style={{ color: PLAYER_COLORS[name] || muted, fontWeight: 700 }}>{name}</span>;
 }
 
 export default function RawData({ games, pairKey }) {
@@ -44,11 +38,11 @@ export default function RawData({ games, pairKey }) {
                     style={{ cursor: "pointer" }}
                     onClick={() => setExpanded(isOpen ? null : i)}
                   >
-                    <td style={{ color: "#6b7280", fontSize: "0.8rem" }}>{i + 1}</td>
-                    <td style={{ color: "#9ca3af", fontSize: "0.82rem" }}>{g.date}</td>
+                    <td style={{ color: "#5B7186", fontSize: "0.8rem" }}>{i + 1}</td>
+                    <td style={{ color: "#5B7186", fontSize: "0.82rem" }}>{g.date}</td>
                     <td>
                       {colorName(g.pair1[0])} &amp; {colorName(g.pair1[1])}
-                      <span style={{ color: "#6b7280", margin: "0 6px" }}>vs</span>
+                      <span style={{ color: "#5B7186", margin: "0 6px" }}>vs</span>
                       {colorName(g.pair2[0])} &amp; {colorName(g.pair2[1])}
                     </td>
                     <td style={{ fontVariantNumeric: "tabular-nums" }}>
@@ -62,7 +56,7 @@ export default function RawData({ games, pairKey }) {
                   </tr>
                   {isOpen && (
                     <tr key={`detail-${i}`}>
-                      <td colSpan={5} style={{ background: "#0f0d1e", padding: "12px 16px" }}>
+                      <td colSpan={5} style={{ background: "#F1FAEE", padding: "12px 16px" }}>
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -71,7 +65,7 @@ export default function RawData({ games, pairKey }) {
                         >
                           {Object.entries(g.euchres).filter(([p]) => p !== "unknown").length > 0 && (
                             <div>
-                              <span style={{ color: "#9ca3af", marginRight: 6 }}>Euched:</span>
+                              <span style={{ color: "#5B7186", marginRight: 6 }}>Euched:</span>
                               {Object.entries(g.euchres)
                                 .filter(([p]) => p !== "unknown")
                                 .map(([p, c]) => (
@@ -81,34 +75,34 @@ export default function RawData({ games, pairKey }) {
                           )}
                           {Object.entries(g.farmers).filter(([p]) => p !== "unknown").length > 0 && (
                             <div>
-                              <span style={{ color: "#9ca3af", marginRight: 6 }}>Farmer hands:</span>
+                              <span style={{ color: "#5B7186", marginRight: 6 }}>Farmer hands:</span>
                               {Object.entries(g.farmers)
                                 .filter(([p]) => p !== "unknown")
                                 .map(([p, c]) => (
-                                  <span key={p} style={{ color: "#fbbf24", marginRight: 6 }}>{p} ×{c}</span>
+                                  <span key={p} style={{ color: "#E63946", marginRight: 6 }}>{p} ×{c}</span>
                                 ))}
                             </div>
                           )}
                           {Object.entries(g.royals).length > 0 && (
                             <div>
-                              <span style={{ color: "#9ca3af", marginRight: 6 }}>Royal hands:</span>
+                              <span style={{ color: "#5B7186", marginRight: 6 }}>Royal hands:</span>
                               {Object.entries(g.royals).map(([p, c]) => (
-                                <span key={p} style={{ color: "#c084fc", marginRight: 6 }}>{p} ×{c}</span>
+                                <span key={p} style={{ color: "#457B9D", marginRight: 6 }}>{p} ×{c}</span>
                               ))}
                             </div>
                           )}
                           {(g.alones || []).length > 0 && (
                             <div>
-                              <span style={{ color: "#9ca3af", marginRight: 6 }}>Went alone:</span>
+                              <span style={{ color: "#5B7186", marginRight: 6 }}>Went alone:</span>
                               {g.alones.map((a, ai) => (
-                                <span key={ai} style={{ color: a.sweep === true ? "#fbbf24" : "#34d399", marginRight: 6 }}>
-                                  {a.player} {a.sweep === true ? "🧹 swept" : "✓ won"}
+                                <span key={ai} style={{ color: a.sweep === true ? "#E63946" : "#457B9D", marginRight: 6, fontWeight: 600 }}>
+                                  {a.player} {a.sweep === true ? "swept" : "won"}
                                 </span>
                               ))}
                             </div>
                           )}
                           {g.notes && (
-                            <div style={{ color: "#9ca3af", fontStyle: "italic" }}>"{g.notes}"</div>
+                            <div style={{ color: "#5B7186", fontStyle: "italic" }}>"{g.notes}"</div>
                           )}
                         </motion.div>
                       </td>

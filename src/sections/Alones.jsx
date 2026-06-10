@@ -1,12 +1,6 @@
 import { motion } from "framer-motion";
 import { games, PLAYERS } from "../data";
-
-const PLAYER_COLORS = {
-  Adam: "#fb923c",
-  Maya: "#c084fc",
-  Deanna: "#34d399",
-  Leah: "#60a5fa",
-};
+import { PLAYER_COLORS, muted, palette } from "../theme";
 
 export default function Alones({ stats }) {
   const { aloneCount, aloneSweep } = stats;
@@ -25,9 +19,9 @@ export default function Alones({ stats }) {
   });
 
   const resultLabel = (sweep) => {
-    if (sweep === true) return <span style={{ color: "#fbbf24", fontWeight: 600 }}>🧹 Swept all 5 (4pts)</span>;
-    if (sweep === false) return <span style={{ color: "#34d399", fontWeight: 600 }}>✓ Won (1pt)</span>;
-    return <span style={{ color: "#9ca3af" }}>✓ Won (pts unrecorded)</span>;
+    if (sweep === true) return <span style={{ color: palette.strawberry, fontWeight: 700 }}>Swept all 5 · 4pts</span>;
+    if (sweep === false) return <span style={{ color: palette.steel, fontWeight: 700 }}>Won · 1pt</span>;
+    return <span style={{ color: muted }}>Won · pts unrecorded</span>;
   };
 
   return (
@@ -37,19 +31,16 @@ export default function Alones({ stats }) {
         <p className="section-sub">Every solo call has been won — but only some swept all 5</p>
       </motion.div>
 
-      {/* Callout */}
+      {/* Hero */}
       <motion.div
-        className="card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        style={{ borderColor: PLAYER_COLORS[king], textAlign: "center" }}
+        className="hero"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: 8 }}>🦅 Most loner calls</div>
-        <div style={{ fontSize: "2.5rem", fontWeight: 800, color: PLAYER_COLORS[king] }}>
-          {king}
-        </div>
-        <div style={{ color: "#9ca3af", marginTop: 4 }}>
+        <div className="hero-eyebrow">Most loner calls</div>
+        <div className="hero-headline" style={{ color: PLAYER_COLORS[king] }}>{king}</div>
+        <div className="hero-meta">
           {aloneCount[king]} solo calls · {aloneSweep[king]} full sweeps
         </div>
       </motion.div>
@@ -72,7 +63,7 @@ export default function Alones({ stats }) {
 
       {/* Per-player breakdown */}
       <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-        <div className="card-title">Solo Calls (🧹 = swept all 5)</div>
+        <div className="card-title">Solo Calls · sweeps / total at right</div>
         <div className="bar-chart">
           {sorted.map((p, i) => (
             <motion.div
@@ -86,21 +77,16 @@ export default function Alones({ stats }) {
               <div className="bar-track">
                 <motion.div
                   className="bar-fill"
-                  style={{ background: PLAYER_COLORS[p], gap: 2 }}
+                  style={{ background: PLAYER_COLORS[p] }}
                   initial={{ width: 0 }}
                   animate={{ width: `${(aloneCount[p] / maxA) * 100}%` }}
                   transition={{ duration: 0.8, delay: 0.1 * i, ease: "easeOut" }}
                 >
-                  {aloneCount[p] > 0 && (
-                    <>
-                      {"🧹".repeat(aloneSweep[p])}
-                      <span style={{ marginLeft: 4 }}>{aloneCount[p]}</span>
-                    </>
-                  )}
+                  {aloneCount[p] > 0 && aloneCount[p]}
                 </motion.div>
               </div>
               <div className="bar-val" style={{ color: PLAYER_COLORS[p] }}>
-                {aloneSweep[p]}🧹
+                {aloneSweep[p]}/{aloneCount[p]}
               </div>
             </motion.div>
           ))}
@@ -122,10 +108,10 @@ export default function Alones({ stats }) {
           <tbody>
             {attempts.map((a, i) => (
               <tr key={i}>
-                <td style={{ color: "#9ca3af", fontSize: "0.82rem" }}>{a.date}</td>
-                <td style={{ color: PLAYER_COLORS[a.player], fontWeight: 600 }}>{a.player}</td>
+                <td style={{ color: muted, fontSize: "0.85rem" }}>{a.date}</td>
+                <td style={{ color: PLAYER_COLORS[a.player], fontWeight: 700 }}>{a.player}</td>
                 <td>{resultLabel(a.sweep)}</td>
-                <td style={{ color: "#9ca3af", fontSize: "0.8rem", fontStyle: "italic" }}>{a.notes || ""}</td>
+                <td style={{ color: muted, fontSize: "0.85rem" }}>{a.notes || ""}</td>
               </tr>
             ))}
           </tbody>

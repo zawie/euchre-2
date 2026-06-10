@@ -4,20 +4,19 @@ import {
   Legend, ResponsiveContainer,
 } from "recharts";
 import { pairKey } from "../data";
+import { palette, muted } from "../theme";
 
 const PAIR_COLORS = {
-  "Adam & Maya": "#c084fc",
-  "Adam & Deanna": "#f472b6",
-  "Adam & Leah": "#fb923c",
-  "Deanna & Maya": "#34d399",
-  "Deanna & Leah": "#60a5fa",
-  "Leah & Maya": "#fbbf24",
+  "Adam & Maya": "#E63946",
+  "Adam & Deanna": "#9D4E5B",
+  "Adam & Leah": "#E07A50",
+  "Deanna & Maya": "#457B9D",
+  "Deanna & Leah": "#1D3557",
+  "Leah & Maya": "#7BB8BC",
 };
 
-const PAIRS = Object.keys(PAIR_COLORS);
-
 function pairColor(key) {
-  return PAIR_COLORS[key] || "#9ca3af";
+  return PAIR_COLORS[key] || muted;
 }
 
 export default function BestPair({ stats }) {
@@ -43,23 +42,16 @@ export default function BestPair({ stats }) {
         <p className="section-sub">All pair combinations ranked by wins</p>
       </motion.div>
 
-      {/* Winner callout */}
+      {/* Hero */}
       <motion.div
-        className="card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        style={{ borderColor: "#7c3aed", textAlign: "center", marginBottom: 24 }}
+        className="hero"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: 8 }}>👑 All-time best pair</div>
-        <div style={{
-          fontSize: "2rem", fontWeight: 800,
-          background: "linear-gradient(135deg, #c084fc, #f472b6)",
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-        }}>
-          {best}
-        </div>
-        <div style={{ color: "#9ca3af", marginTop: 4 }}>
+        <div className="hero-eyebrow">All-time best pair</div>
+        <div className="hero-headline">{best}</div>
+        <div className="hero-meta">
           {pairWins[best]}W – {pairLosses[best] || 0}L · {winRate(best)}% win rate
         </div>
       </motion.div>
@@ -99,18 +91,18 @@ export default function BestPair({ stats }) {
         <div className="card-title">Cumulative Wins Over Time</div>
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={timeline} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2e2a45" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DCE7E2" />
             <XAxis
               dataKey="date"
-              tick={{ fill: "#9ca3af", fontSize: 11 }}
+              tick={{ fill: "#5B7186", fontSize: 11 }}
               tickFormatter={(d) => d.slice(5)}
               interval={3}
             />
-            <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} allowDecimals={false} />
+            <YAxis tick={{ fill: "#5B7186", fontSize: 11 }} allowDecimals={false} />
             <Tooltip
-              contentStyle={{ background: "#1e1b2e", border: "1px solid #3b3552", borderRadius: 8 }}
-              labelStyle={{ color: "#c4b5fd" }}
-              itemStyle={{ color: "#e2e0ea" }}
+              contentStyle={{ background: "#fff", border: "1px solid #DCE7E2", borderRadius: 8 }}
+              labelStyle={{ color: "#1D3557", fontWeight: 600 }}
+              itemStyle={{ color: "#1D3557" }}
             />
             <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
             {allPairKeys.map((k) => (

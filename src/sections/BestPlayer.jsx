@@ -5,13 +5,7 @@ import {
   PolarAngleAxis, PolarRadiusAxis,
 } from "recharts";
 import { PLAYERS } from "../data";
-
-const PLAYER_COLORS = {
-  Adam: "#fb923c",
-  Maya: "#c084fc",
-  Deanna: "#34d399",
-  Leah: "#60a5fa",
-};
+import { PLAYER_COLORS, muted } from "../theme";
 
 export default function BestPlayer({ stats }) {
   const { playerWins, playerLosses, euchreCount, farmerCount, royalCount, playerTimeline } = stats;
@@ -50,22 +44,16 @@ export default function BestPlayer({ stats }) {
         <p className="section-sub">Individual win records across all game pairings</p>
       </motion.div>
 
-      {/* Winner callout */}
+      {/* Hero */}
       <motion.div
-        className="card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        style={{ borderColor: PLAYER_COLORS[best], textAlign: "center" }}
+        className="hero"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: 8 }}>👑 Most wins</div>
-        <div style={{
-          fontSize: "2.5rem", fontWeight: 800,
-          color: PLAYER_COLORS[best],
-        }}>
-          {best}
-        </div>
-        <div style={{ color: "#9ca3af", marginTop: 4 }}>
+        <div className="hero-eyebrow">Most wins</div>
+        <div className="hero-headline" style={{ color: PLAYER_COLORS[best] }}>{best}</div>
+        <div className="hero-meta">
           {playerWins[best]}W – {playerLosses[best]}L · {winRate(best)}% win rate
         </div>
       </motion.div>
@@ -79,17 +67,12 @@ export default function BestPlayer({ stats }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 * i }}
-            style={{ borderColor: PLAYER_COLORS[p] + "66" }}
+            style={{ borderTop: `3px solid ${PLAYER_COLORS[p]}` }}
           >
-            <div style={{ color: PLAYER_COLORS[p], fontWeight: 700, marginBottom: 4 }}>{p}</div>
-            <div className="big" style={{
-              background: `linear-gradient(135deg, ${PLAYER_COLORS[p]}, #f472b6)`,
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>
-              {playerWins[p]}
-            </div>
+            <div className="eyebrow" style={{ color: PLAYER_COLORS[p] }}>{p}</div>
+            <div className="big">{playerWins[p]}</div>
             <div className="label">wins · {winRate(p)}%</div>
-            <div style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: 6 }}>
+            <div style={{ fontSize: "0.78rem", color: muted, marginTop: 6 }}>
               {playerLosses[p]} losses
             </div>
           </motion.div>
@@ -131,17 +114,17 @@ export default function BestPlayer({ stats }) {
         <div className="card-title">Cumulative Wins Over Time</div>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={playerTimeline} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2e2a45" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DCE7E2" />
             <XAxis
               dataKey="date"
-              tick={{ fill: "#9ca3af", fontSize: 11 }}
+              tick={{ fill: "#5B7186", fontSize: 11 }}
               tickFormatter={(d) => d.slice(5)}
               interval={3}
             />
-            <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} allowDecimals={false} />
+            <YAxis tick={{ fill: "#5B7186", fontSize: 11 }} allowDecimals={false} />
             <Tooltip
-              contentStyle={{ background: "#1e1b2e", border: "1px solid #3b3552", borderRadius: 8 }}
-              labelStyle={{ color: "#c4b5fd" }}
+              contentStyle={{ background: "#fff", border: "1px solid #DCE7E2", borderRadius: 8 }}
+              labelStyle={{ color: "#1D3557", fontWeight: 600 }}
             />
             <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
             {PLAYERS.map((p) => (

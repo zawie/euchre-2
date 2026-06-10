@@ -4,13 +4,7 @@ import {
   ResponsiveContainer, Cell, LineChart, Line, Legend,
 } from "recharts";
 import { PLAYERS } from "../data";
-
-const PLAYER_COLORS = {
-  Adam: "#fb923c",
-  Maya: "#c084fc",
-  Deanna: "#34d399",
-  Leah: "#60a5fa",
-};
+import { PLAYER_COLORS, muted, palette } from "../theme";
 
 export default function Euches({ stats }) {
   const { euchreCount, euchreTimeline } = stats;
@@ -28,21 +22,16 @@ export default function Euches({ stats }) {
         <p className="section-sub">Who got euched the most — the hall of shame</p>
       </motion.div>
 
-      {/* Worst offender */}
+      {/* Hero */}
       <motion.div
-        className="card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        style={{ borderColor: "#ef4444", textAlign: "center" }}
+        className="hero"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: 8 }}>😬 Most times euched</div>
-        <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "#f87171" }}>
-          {worst}
-        </div>
-        <div style={{ color: "#9ca3af", marginTop: 4 }}>
-          euched {euchreCount[worst]} times
-        </div>
+        <div className="hero-eyebrow">Most times euched</div>
+        <div className="hero-headline" style={{ color: PLAYER_COLORS[worst] }}>{worst}</div>
+        <div className="hero-meta">euched {euchreCount[worst]} times</div>
       </motion.div>
 
       {/* Bar chart */}
@@ -50,13 +39,13 @@ export default function Euches({ stats }) {
         <div className="card-title">Times Euched</div>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={barData} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2e2a45" />
-            <XAxis dataKey="name" tick={{ fill: "#9ca3af", fontSize: 13 }} />
-            <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} allowDecimals={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DCE7E2" />
+            <XAxis dataKey="name" tick={{ fill: "#5B7186", fontSize: 13 }} />
+            <YAxis tick={{ fill: "#5B7186", fontSize: 11 }} allowDecimals={false} />
             <Tooltip
-              contentStyle={{ background: "#1e1b2e", border: "1px solid #3b3552", borderRadius: 8 }}
-              labelStyle={{ color: "#c4b5fd" }}
-              cursor={{ fill: "#ffffff10" }}
+              contentStyle={{ background: "#fff", border: "1px solid #DCE7E2", borderRadius: 8 }}
+              labelStyle={{ color: "#1D3557", fontWeight: 600 }}
+              cursor={{ fill: "#1D355710" }}
             />
             <Bar dataKey="Euches" radius={[6, 6, 0, 0]}>
               {barData.map((entry) => (
@@ -72,17 +61,17 @@ export default function Euches({ stats }) {
         <div className="card-title">Cumulative Euches Over Time</div>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={euchreTimeline} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2e2a45" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DCE7E2" />
             <XAxis
               dataKey="date"
-              tick={{ fill: "#9ca3af", fontSize: 11 }}
+              tick={{ fill: "#5B7186", fontSize: 11 }}
               tickFormatter={(d) => d.slice(5)}
               interval={3}
             />
-            <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} allowDecimals={false} />
+            <YAxis tick={{ fill: "#5B7186", fontSize: 11 }} allowDecimals={false} />
             <Tooltip
-              contentStyle={{ background: "#1e1b2e", border: "1px solid #3b3552", borderRadius: 8 }}
-              labelStyle={{ color: "#c4b5fd" }}
+              contentStyle={{ background: "#fff", border: "1px solid #DCE7E2", borderRadius: 8 }}
+              labelStyle={{ color: "#1D3557", fontWeight: 600 }}
             />
             <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
             {PLAYERS.map((p) => (
@@ -143,15 +132,10 @@ export default function Euches({ stats }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 * i }}
-              style={{ borderColor: PLAYER_COLORS[p] + "66" }}
+              style={{ borderTop: `3px solid ${PLAYER_COLORS[p]}` }}
             >
-              <div style={{ color: PLAYER_COLORS[p], fontWeight: 700, marginBottom: 4 }}>{p}</div>
-              <div className="big" style={{
-                background: `linear-gradient(135deg, ${PLAYER_COLORS[p]}, #f87171)`,
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-              }}>
-                {ratio}
-              </div>
+              <div className="eyebrow" style={{ color: PLAYER_COLORS[p] }}>{p}</div>
+              <div className="big">{ratio}</div>
               <div className="label">euches / game</div>
             </motion.div>
           );

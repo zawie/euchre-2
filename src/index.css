@@ -1,3 +1,23 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0d0d14; }
+
+:root {
+  --strawberry: #E63946;
+  --honeydew: #F1FAEE;
+  --frosted: #A8DADC;
+  --steel: #457B9D;
+  --deep: #1D3557;
+  --muted: #5B7186;
+  --hairline: #DCE7E2;
+  --card: #ffffff;
+}
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  background: var(--honeydew);
+  color: var(--deep);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01", "cv01";
+}
+
 #root { min-height: 100svh; }

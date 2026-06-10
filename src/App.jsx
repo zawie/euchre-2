@@ -11,11 +11,11 @@ import "./App.css";
 const stats = computeStats();
 
 const SECTIONS = [
-  { id: "pair", label: "🤝 Best Pair" },
-  { id: "player", label: "🏆 Best Player" },
-  { id: "euches", label: "😬 Euches" },
-  { id: "alone", label: "🦅 Going Alone" },
-  { id: "data", label: "📋 Raw Data" },
+  { id: "pair", label: "Best Pair" },
+  { id: "player", label: "Best Player" },
+  { id: "euches", label: "Euches" },
+  { id: "alone", label: "Going Alone" },
+  { id: "data", label: "All Games" },
 ];
 
 export default function App() {
@@ -25,11 +25,11 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <motion.h1
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          🃏 Euchre Wrapped
+          Euchre <span className="accent">Wrapped</span>
         </motion.h1>
         <motion.p
           className="subtitle"
