@@ -394,6 +394,18 @@ export const games = [
     farmers: { Maya: 1 },
     royals: {},
   },
+  {
+    date: "2026-06-09",
+    pair1: ["Maya", "Leah"],
+    pair2: ["Adam", "Deanna"],
+    winner: ["Maya", "Leah"],
+    score: { winner: 11, loser: 6 },
+    euchres: { Maya: 1, Adam: 2 },
+    farmers: { Deanna: 1 },
+    royals: {},
+    alones: [{ player: "Maya", sweep: false }],
+    notes: "Maya went alone but only won 4 (1pt)",
+  },
 ];
 
 export const PLAYERS = ["Adam", "Maya", "Deanna", "Leah"];
