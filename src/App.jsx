@@ -4,6 +4,7 @@ import { computeStats, games, pairKey } from "./data";
 import BestPair from "./sections/BestPair";
 import BestPlayer from "./sections/BestPlayer";
 import Euches from "./sections/Euches";
+import Points from "./sections/Points";
 import Alones from "./sections/Alones";
 import RawData from "./sections/RawData";
 import Splash from "./sections/Splash";
@@ -14,6 +15,7 @@ const stats = computeStats();
 const SECTIONS = [
   { id: "player", label: "Best Player" },
   { id: "pair", label: "Best Pair" },
+  { id: "points", label: "Points" },
   { id: "euches", label: "Euches" },
   { id: "alone", label: "Going Alone" },
   { id: "data", label: "All Games" },
@@ -74,6 +76,7 @@ export default function App() {
           >
             {active === "pair" && <BestPair stats={stats} />}
             {active === "player" && <BestPlayer stats={stats} />}
+            {active === "points" && <Points stats={stats} />}
             {active === "euches" && <Euches stats={stats} />}
             {active === "alone" && <Alones stats={stats} />}
             {active === "data" && <RawData games={games} pairKey={pairKey} />}

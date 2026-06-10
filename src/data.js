@@ -423,9 +423,8 @@ export function computeStats() {
   const royalCount = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
   const aloneCount = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
   const aloneSweep = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
-
-  // Cumulative pair wins over time
-  const pairCumulative = {}; // pairKey -> [{date, wins}]
+  const playerPoints = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
+  const pairPoints = {};
 
   games.forEach((g) => {
     const wKey = pairKey(g.winner[0], g.winner[1]);
@@ -437,6 +436,12 @@ export function computeStats() {
 
     g.winner.forEach((p) => playerWins[p]++);
     loser.forEach((p) => playerLosses[p]++);
+
+    // points: each player/pair earns the score their side put up
+    g.winner.forEach((p) => (playerPoints[p] += g.score.winner));
+    loser.forEach((p) => (playerPoints[p] += g.score.loser));
+    pairPoints[wKey] = (pairPoints[wKey] || 0) + g.score.winner;
+    pairPoints[lKey] = (pairPoints[lKey] || 0) + g.score.loser;
 
     Object.entries(g.euchres).forEach(([p, c]) => {
       if (PLAYERS.includes(p)) euchreCount[p] += c;
@@ -488,7 +493,32 @@ export function computeStats() {
     return { date: g.date, ...runningEuchres };
   });
 
+  // Player cumulative points timeline
+  const runningPlayerPoints = { Adam: 0, Maya: 0, Deanna: 0, Leah: 0 };
+  const playerPointsTimeline = games.map((g) => {
+    const loser = g.pair1.includes(g.winner[0]) ? g.pair2 : g.pair1;
+    g.winner.forEach((p) => (runningPlayerPoints[p] += g.score.winner));
+    loser.forEach((p) => (runningPlayerPoints[p] += g.score.loser));
+    return { date: g.date, ...runningPlayerPoints };
+  });
+
+  // Pair cumulative points timeline
+  const runningPairPoints = {};
+  allPairKeys.forEach((k) => (runningPairPoints[k] = 0));
+  const pairPointsTimeline = games.map((g) => {
+    const wKey = pairKey(g.winner[0], g.winner[1]);
+    const loser = g.pair1.includes(g.winner[0]) ? g.pair2 : g.pair1;
+    const lKey = pairKey(loser[0], loser[1]);
+    runningPairPoints[wKey] += g.score.winner;
+    runningPairPoints[lKey] += g.score.loser;
+    return { date: g.date, ...runningPairPoints };
+  });
+
   return {
+    playerPoints,
+    pairPoints,
+    playerPointsTimeline,
+    pairPointsTimeline,
     pairWins,
     pairLosses,
     playerWins,
