@@ -22,18 +22,18 @@ function pairColor(key) {
 export default function BestPair({ stats }) {
   const { pairWins, pairLosses, timeline, allPairKeys } = stats;
 
-  const sorted = [...allPairKeys]
-    .filter((k) => (pairWins[k] || 0) > 0 || (pairLosses[k] || 0) > 0)
-    .sort((a, b) => (pairWins[b] || 0) - (pairWins[a] || 0));
-
-  const maxWins = pairWins[sorted[0]] || 1;
-  const best = sorted[0];
-
   const winRate = (k) => {
     const w = pairWins[k] || 0;
     const l = pairLosses[k] || 0;
     return w + l === 0 ? 0 : Math.round((w / (w + l)) * 100);
   };
+
+  const sorted = [...allPairKeys]
+    .filter((k) => (pairWins[k] || 0) > 0 || (pairLosses[k] || 0) > 0)
+    .sort((a, b) => (pairWins[b] || 0) - (pairWins[a] || 0) || winRate(b) - winRate(a));
+
+  const maxWins = pairWins[sorted[0]] || 1;
+  const best = sorted[0];
 
   return (
     <div>

@@ -11,15 +11,15 @@ import "./App.css";
 const stats = computeStats();
 
 const SECTIONS = [
-  { id: "pair", label: "Best Pair" },
   { id: "player", label: "Best Player" },
+  { id: "pair", label: "Best Pair" },
   { id: "euches", label: "Euches" },
   { id: "alone", label: "Going Alone" },
   { id: "data", label: "All Games" },
 ];
 
 export default function App() {
-  const [active, setActive] = useState("pair");
+  const [active, setActive] = useState("player");
 
   return (
     <div className="app">

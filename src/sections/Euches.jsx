@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell, LineChart, Line, Legend,
+  XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, LineChart, Line, Legend,
 } from "recharts";
 import { PLAYERS } from "../data";
 import { PLAYER_COLORS, muted, palette } from "../theme";
@@ -12,8 +12,6 @@ export default function Euches({ stats }) {
   const sorted = [...PLAYERS].sort((a, b) => euchreCount[b] - euchreCount[a]);
   const worst = sorted[0];
   const maxE = euchreCount[worst] || 1;
-
-  const barData = sorted.map((p) => ({ name: p, Euches: euchreCount[p] || 0 }));
 
   return (
     <div>
@@ -32,28 +30,6 @@ export default function Euches({ stats }) {
         <div className="hero-eyebrow">Most times euched</div>
         <div className="hero-headline" style={{ color: PLAYER_COLORS[worst] }}>{worst}</div>
         <div className="hero-meta">euched {euchreCount[worst]} times</div>
-      </motion.div>
-
-      {/* Bar chart */}
-      <motion.div className="card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-        <div className="card-title">Times Euched</div>
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={barData} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#DCE7E2" />
-            <XAxis dataKey="name" tick={{ fill: "#5B7186", fontSize: 13 }} />
-            <YAxis tick={{ fill: "#5B7186", fontSize: 11 }} allowDecimals={false} />
-            <Tooltip
-              contentStyle={{ background: "#fff", border: "1px solid #DCE7E2", borderRadius: 8 }}
-              labelStyle={{ color: "#1D3557", fontWeight: 600 }}
-              cursor={{ fill: "#1D355710" }}
-            />
-            <Bar dataKey="Euches" radius={[6, 6, 0, 0]}>
-              {barData.map((entry) => (
-                <Cell key={entry.name} fill={PLAYER_COLORS[entry.name]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
       </motion.div>
 
       {/* Cumulative line chart */}
